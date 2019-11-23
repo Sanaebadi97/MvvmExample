@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import test.test.niceplace.adapter.NicePlaceAdapter
+import test.test.niceplace.models.NicePlace
 import test.test.niceplace.viewModels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -42,13 +43,30 @@ class MainActivity : AppCompatActivity() {
             nicePlaceAdapter.notifyDataSetChanged()
 
         })
+
+        mainViewModel.getIsUpdating().observe(this, Observer { aBoolean ->
+            if (aBoolean) {
+                showDialog()
+            } else {
+                hideDialog()
+                rvNicePlace.smoothScrollToPosition(mainViewModel.nicePlaces!!.value!!.size - 1)
+            }
+
+        })
+
+        fab.setOnClickListener{
+            mainViewModel.addNewValue(NicePlace(
+                "https://i.imgur.com/ZcLLrkY.jpg",
+                "Washington"
+            ))
+        }
         initRecyclerView()
 
 
     }
 
     private fun initRecyclerView() {
-         nicePlaceAdapter = NicePlaceAdapter(mainViewModel.nicePlaces!!.value!!)
+        nicePlaceAdapter = NicePlaceAdapter(mainViewModel.nicePlaces!!.value!!)
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvNicePlace.layoutManager = linearLayoutManager
         rvNicePlace.adapter = nicePlaceAdapter
