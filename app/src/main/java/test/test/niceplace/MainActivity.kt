@@ -42,13 +42,13 @@ class MainActivity : AppCompatActivity() {
             nicePlaceAdapter.notifyDataSetChanged()
 
         })
-
         initRecyclerView()
+
 
     }
 
     private fun initRecyclerView() {
-        nicePlaceAdapter = NicePlaceAdapter(mainViewModel.nicePlaces!!.value!!)
+         nicePlaceAdapter = NicePlaceAdapter(mainViewModel.nicePlaces!!.value!!)
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvNicePlace.layoutManager = linearLayoutManager
         rvNicePlace.adapter = nicePlaceAdapter

@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -29,9 +28,14 @@ class NicePlaceAdapter(val nicePlaceList: List<NicePlace>) :
 
     override fun onBindViewHolder(holder: NicePlaceViewHolder, position: Int) {
         holder.txtNicePLace.text = nicePlaceList[position].title
+
+
         Glide.with(holder.itemView.context)
-            .apply { RequestOptions.circleCropTransform().error(R.drawable.ic_launcher_background) }
             .load(nicePlaceList[position].imageUrl)
+            .apply(
+                RequestOptions().circleCrop().error(R.drawable.ic_launcher_background)
+                    .placeholder(android.R.drawable.stat_notify_error)
+            )
             .into(holder.imgNicePlace)
 
     }

@@ -7,19 +7,21 @@ import test.test.niceplace.models.NicePlace
 import test.test.niceplace.repositories.NicePlaceRepository
 
 class MainViewModel : ViewModel() {
-    private val _nicePlaces = MutableLiveData<List<NicePlace>>()
-    private lateinit var repository: NicePlaceRepository
+    private var mNicePlaces: MutableLiveData<List<NicePlace>>? = null
+    private var mRepo: NicePlaceRepository? = null
 
-    var nicePlaces: LiveData<List<NicePlace>>? = null
-        get() = _nicePlaces
+    val nicePlaces: LiveData<List<NicePlace>>?
+        get() = mNicePlaces
+
+
 
     fun init() {
 
-        if (nicePlaces != null) {
+        if (mNicePlaces != null) {
             return
         }
-        repository = NicePlaceRepository().getInstance()
-        nicePlaces = repository.getNicePlaces()
+        mRepo = NicePlaceRepository.getInstance()
+        mNicePlaces = mRepo!!.nicePlaces
     }
 
 }

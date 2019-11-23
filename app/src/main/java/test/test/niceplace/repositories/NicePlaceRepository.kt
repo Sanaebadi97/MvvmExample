@@ -8,30 +8,35 @@ import test.test.niceplace.models.NicePlace
 
 class NicePlaceRepository {
 
-    private var instance: NicePlaceRepository? = null
-    lateinit var dataSet: ArrayList<NicePlace>
+    companion object {
+        private var instance: NicePlaceRepository? = null
 
-    fun getInstance(): NicePlaceRepository {
-        if (instance == null) {
-            instance = NicePlaceRepository()
+
+        fun getInstance(): NicePlaceRepository {
+            if (instance == null) {
+                instance = NicePlaceRepository()
+            }
+            return instance!!
         }
-        return instance!!
     }
 
 
-    //papered to get data from a webservice or online source
-    fun getNicePlaces(): MutableLiveData<List<NicePlace>> {
+    private val dataSet = ArrayList<NicePlace>()
 
-        setNicePlaces()
-        val data: MutableLiveData<List<NicePlace>> = MutableLiveData()
-        data.value = dataSet
 
-        return data
-    }
+    // Pretend to get data from a webservice or online source
+    val nicePlaces: MutableLiveData<List<NicePlace>>
+        get() {
+
+            setNicePlaces()
+            val data = MutableLiveData<List<NicePlace>>()
+            data.value = dataSet
+            return data
+        }
+
 
     private fun setNicePlaces() {
 
-        dataSet = ArrayList<NicePlace>()
 
         dataSet.add(
             NicePlace(
